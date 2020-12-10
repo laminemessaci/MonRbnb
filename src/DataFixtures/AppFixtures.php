@@ -43,12 +43,14 @@ class AppFixtures extends Fixture
 
             $picture .= ($genre == 'male' ? 'men/' : 'women/') . $pictureId;
 
+                $hash = $this->encoder->encodePassword($user, 'password');
+
             $user->setFirstName($faker->firstname($genre))
                 ->setLastName($faker->lastname)
                 ->setEmail($faker->email)
                 ->setIntroduction($faker->sentence())
                 ->setDescription("<p>" . join("</p><p>", $faker->paragraphs(3)) . "</p>")
-                ->setHash("password")
+                ->setHash($hash)
                 ->setPicture($picture);
 
             $manager->persist($user);
