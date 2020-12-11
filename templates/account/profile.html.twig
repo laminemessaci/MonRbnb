@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification du profile  {% endblock %}
+
+{% block body %}
+
+    <div class="wrapper bg-white">
+        <div class="h2 text-center">Agence N°1 du web</div>
+        <div class="h4 text-muted text-center pt-2">Entez vos informations</div>
+        {% if exist %}
+            <div class="alert alert-danger">
+                Cet adresse email existe deja dans notre base de donnée. Identifiez vous <span><a
+                            href="{{ path('account_login') }}">ici</a></span>
+            </div>
+        {% endif %}
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="form-group  col-md-6">
+                {{ form_row(form.firstName) }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form_row(form.lastName) }}
+            </div>
+        </div>
+
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-block text-center my-3">Enregistrer les modifications</button>
+        {{ form_end(form) }}
+
+
+    </div>
+{% endblock %}

@@ -7,11 +7,17 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ *  @UniqueEntity(
+ *     fields={"email"},
+ *     message="Une autre utilisateur s'est  dejâ inscrit avec ce mail, merci de se connecter ou de renitialiser votre mot de passe !, "
+ * )
  */
 class User implements UserInterface
 {
@@ -24,21 +30,26 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=15, minMessage="Le prénom doit faire plus de 3 caractères !", maxMessage="Le prénom ne doit pas dépassé 15 caractères !")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Assert\Length(min=3, max=15, minMessage="Le nom doit faire plus de 3 caractères !", maxMessage="Le nom ne doit pas dépassé 15 caractères !")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="Veillez renseigner un email valide !")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message="Veillez renseigner un URL valide !")
      */
     private $picture;
 
@@ -48,12 +59,19 @@ class User implements UserInterface
     private $hash;
 
     /**
+     * @Assert\EqualTo(propertyPath="hash", message="Les deux mots de passes sont différents !")
+     */
+    private $passwordConfirm;
+
+    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, max=150, minMessage="Le nom doit faire plus de 10 caractères !", maxMessage="Le nom ne doit pas dépassé 150 caractères !")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=100, max=1000, minMessage="Le nom doit faire plus de 100 caractères !", maxMessage="Le nom ne doit pas dépassé 1000 caractères !")
      */
     private $description;
 
@@ -79,6 +97,10 @@ class User implements UserInterface
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->firstName.' '.$this->lastName);
         }
+    }
+
+    public function getFullName(){
+        return "{$this->firstName} {$this->lastName}";
     }
 
     public function __construct()
@@ -150,6 +172,23 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPasswordConfirm()
+    {
+        return $this->passwordConfirm;
+    }
+
+    /**
+     * @param mixed $passwordConfirm
+     */
+    public function setPasswordConfirm($passwordConfirm): void
+    {
+        $this->passwordConfirm = $passwordConfirm;
+    }
+
 
     public function getIntroduction(): ?string
     {

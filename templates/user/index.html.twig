@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pages de {{ user.fullName }}{% endblock %}
+
+{% block body %}
+    <div class="container ">
+
+        <div class="z-depth-5 main rounded">
+            <div class="row">
+                <div class="col-md-2 picture">
+                    <img class=" rounded-circle m-2" src="{{ user.picture }}" alt="{{ user.fullName }}">
+                </div>
+                <div class="col-md-8 details m-2">
+                    <center>
+                        <p class="name m-2 mt-4"><i class="fas fa-users-cog"></i><b> {{ user.fullName }}</b> </p>
+                    </center>
+                    {% if user is same as(app.user) %}
+
+                        <a href="{{ path('account_profile') }}" class="btn btn-primary mb-2"><i class="fas fa-users-cog"></i> Modifier mes informations</a>
+                        <a href="{{ path('account_password') }}" class="btn btn-primary mb-2"><i class="fas fa-key"></i> Modifier mon mot de passe</a>
+
+                    {% endif %}
+                    <center>
+                        <p>{{ user.description | raw }}</p>
+                    </center>
+
+                </div>
+            </div>
+            <table class="table ">
+                <tr>
+                    <td>
+                        <p><b>{{ user.ads | length }} annonces</b></p>
+                        <p>Posts</p>
+                    </td>
+                    <td>
+                        <p><b>767K</b></p>
+                        <p>Followers</p>
+                    </td>
+                    <td>
+                        <p><b>892</b></p>
+                        <p>Following</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <h3>Les annonces de {{ user.fullName }}</h3>
+        {% if user.ads| length > 0 %}
+            <div class="row">
+                {% for ad in user.ads %}
+                      {% include '/ad/_ad.html.twig' %}
+                    {% endfor %}
+
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <p class="m-2">
+                    <strong>{{ user.fullName }}</strong> n'a pas encore d'annonce sur le site
+                </p>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

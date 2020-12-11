@@ -5,20 +5,37 @@
 {% block body %}
 
     <div class="wrapper bg-white">
-        <div class="h2 text-center">Creativity</div>
-        <div class="h4 text-muted text-center pt-2">Enter your login details</div>
-        <form class="pt-3">
+        <div class="h2 text-center">Votre Agence</div>
+        <div class="h4 text-muted text-center pt-2">Entez vos identifiants</div>
+        {% if hasError %}
+            <div class="alert alert-danger">
+                Une erreur est survenue, le nom d'utilisateur ou alors le mot de passe est invalide.
+            </div>
+        {% endif %}
+
+        <form class="pt-3" action="{{ path('account_login') }}" method="post">
             <div class="form-group py-2">
-                <div class="input-field"> <span class="far fa-user p-2"></span> <input type="text" placeholder="Username or Email Address" required class=""> </div>
+                <div class="input-field"><span class="far fa-user p-2"></span> <input type="text" name="_username"
+                                                                                      id="email"
+                                                                                      value="{{ username }}"
+                                                                                      placeholder="Email Address"
+                                                                                      required class=""></div>
             </div>
             <div class="form-group py-1 pb-2">
-                <div class="input-field"> <span class="fas fa-lock p-2"></span> <input type="text" placeholder="Enter your Password" required class=""> <button class="btn bg-white text-muted"> <span class="far fa-eye-slash"></span> </button> </div>
+                <div class="input-field"><span class="fas fa-lock p-2"></span> <input type="password" name="_password"
+                                                                                      id="password"
+                                                                                      placeholder="Enter your Password"
+                                                                                      required class="">
+                    <button class="btn bg-white text-muted"><span class="far fa-eye-slash"></span></button>
+                </div>
             </div>
             <div class="d-flex align-items-start">
-                <div class="remember"> <label class="option text-muted"> Remember me <input type="radio" name="radio"> <span class="checkmark"></span> </label> </div>
-                <div class="ml-auto"> <a href="#" id="forgot">Forgot Password?</a> </div>
-            </div> <button class="btn btn-block text-center my-3">Log in</button>
-            <div class="text-center pt-3 text-muted">Not a member? <a href="#">Sign up</a></div>
+                <div class="remember"><label class="option text-muted"> Remember me <input type="radio" name="radio">
+                        <span class="checkmark"></span> </label></div>
+                <div class="ml-auto"><a href="#" id="forgot">Mot de passe oublier ?</a></div>
+            </div>
+            <button class="btn btn-block text-center my-3">Connexion</button>
+            <div class="text-center pt-3 text-muted">Pas encore inscrit? <a href="#">Inscription</a></div>
         </form>
     </div>
 {% endblock %}

@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
         }
 
         //Nous gérons les annonces
-        for ($i = 1; $i <= 30; $i++) {
+        for ($i = 1; $i <= 16; $i++) {
             $ad = new Ad();
             $title = $faker->sentence();
             // $slug = $slugify->slugify($title);
