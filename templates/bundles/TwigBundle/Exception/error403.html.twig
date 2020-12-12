@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+  {% block stylesheets %}
+      <link rel="stylesheet" href="/CSS/exception.css">
+  {% endblock %}
+
+{% block body %}
+    {% block title %}Oops ! :( {% endblock %}
+    <div class="container-fluid text-center">
+        <div class="px-5 py-5">
+            <h1 class="not-found">403</h1> <span class="oops-text">Vous n'avez pas le droit d'accéder à cette ressource !</span>
+            <h4 class="not-found-text mt-4">Vous testez la fiabilité de notre site ?!<br>
+               Merci de retourner a l'accueil </h4>
+            <div class="text-center mt-4 mb-5"><a href="{{ path('home') }}">
+                    <button class="btn btn-success send px-3"><i class="fas fa-hand-point-left"></i> Return to main
+                        page <i class="fas fa-house-damage"></i>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

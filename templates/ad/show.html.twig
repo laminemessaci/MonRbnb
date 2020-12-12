@@ -5,27 +5,69 @@
 {% endblock %}
 
 {% block body %}
-    <div class="ad-title" style="background-image: url({{ ad.coverImage }})">
-
-        <div class="container">
-            <h1> {{ ad.title }} </h1>
+    <div class="my-title m-0 p-0" style="background-image: url({{ ad.coverImage }})">
+        <div class=" ad-title text-center">
+            <h1 class="h1 text-white ad-title">{{ ad.title }}</h1>
             <p>{{ ad.introduction }}</p>
-            <p class="h2">
-                <strong>{{ ad.rooms }} chambres</strong> pour <strong>{{ ad.price }} &euro; </strong> par nuit
+            <p class="h2 ad-title">
+                <strong>{{ ad.rooms }} chambres</strong> pour <strong>{{ ad.price }}&euro;</strong> par nuit
             </p>
+            <a href="#" class="btn btn-primary">Réserver !</a>
 
-            <a class="btn btn-primary"><i class="fas fa-credit-card"></i> Réserver </a>
             {% if app.user and app.user == ad.author %}
-                <a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-dark"><i class="fas fa-cogs"></i>
-                    Modifier cette annonce </a>
-                <a href="{{ path('ads_delete', {'slug': ad.slug}) }}" class="btn btn-danger" onclick="return confirm(`Ëte vous sur de vouloir supprimer l'annone: {{ ad.title }} ?`)"><i class="fas fa-trash-alt"></i>
-                    Supprimer cette annonce </a>
+                <a href="{{ path('ads_edit', {'slug' : ad.slug}) }}" class="btn btn-secondary">Modifier l'annonce</a>
+                <a type="button" class="btn btn-danger btn-sm text-white" data-toggle="modal"
+                   data-target="#exampleModal"><i class="fas fa-trash-alt"></i>Supprimer</a>
+
             {% endif %}
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="container d-flex pl-0"><i class="fas fa-trash-alt"></i>
+                                <h5 class="modal-title ml-2" id="exampleModalLabel"><i
+                                            class="fas fa-trash-alt"></i>
+                                    Supprimer l'annonce ?</h5>
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-muted">Si vous supprimez, l'annonce {{ ad.title }} disparaîtra
+                                pour
+                                toujours. Êtes-vous
+                                sur de vouloir continuer?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Annuler
+                            </button>
+                            <a href="{{ path('ads_delete', {'slug': ad.slug}) }}" class="btn btn-danger">
+
+                                <button type="button" class="btn btn-danger"><i
+                                            class="fas fa-trash-alt"></i>
+                                    Supprimer
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    {#
+    <a href="{{ path('ads_delete', {'slug': ad.slug}) }}" class="btn btn-danger"
+       onclick="return confirm(`Ëte vous sur de vouloir supprimer l'annone: {{ ad.title }} ?`)">
+       <i class="fas fa-trash-alt"></i>
+        Supprimer cette annonce </a>
+    #}
+
     <div class="container">
-        <div class="row">
+        <div class="row ">
             <div class="col-md-8 mb-3">
                 {{ ad.content | raw }}
 
@@ -92,10 +134,7 @@
                 </div>
             </div>
 
-
         </div>
     </div>
-
-
 
 {% endblock %}
