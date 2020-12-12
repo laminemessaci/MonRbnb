@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use App\Entity\Image;
+use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -29,6 +30,22 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('FR-fr');
         //$slugify = new Slugify();
+        $adminRole = new Role();
+        $adminRole->setTitle('ROLE_ADMIN');
+        $manager->persist($adminRole);
+
+        $adminUser = new User();
+        $adminUser->setFirstName('Lamine')
+            ->setLastName('Messaci')
+            ->setEmail('lamine.messaci@gmail.com')
+            ->setHash($this->encoder->encodePassword($adminUser, 'password'))
+            ->setPicture('https://unavatar.now.sh/twitter/@messaci')
+            ->setIntroduction($faker->sentence())
+            ->setDescription("<p>" . join("</p><p>", $faker->paragraphs(3)) . "</p>")
+            ->addUserRole($adminRole);
+
+        $manager->persist($adminUser);
+
 
         //Nous gérons les utilisateurs
         $users = [];
@@ -43,7 +60,7 @@ class AppFixtures extends Fixture
 
             $picture .= ($genre == 'male' ? 'men/' : 'women/') . $pictureId;
 
-                $hash = $this->encoder->encodePassword($user, 'password');
+            $hash = $this->encoder->encodePassword($user, 'password');
 
             $user->setFirstName($faker->firstname($genre))
                 ->setLastName($faker->lastname)
@@ -62,7 +79,8 @@ class AppFixtures extends Fixture
             $ad = new Ad();
             $title = $faker->sentence();
             // $slug = $slugify->slugify($title);
-            $coverImage = $faker->imageUrl(1000, 350);
+           // $coverImage = $faker->imageUrl(1000, 350);
+            $coverImage = "http://placeimg.com/640/480/arch/grayscale";
             $introduction = $faker->paragraph(2);
             $content = "<p>" . join("</p><p>", $faker->paragraphs(5)) . "</p>";
 
@@ -79,7 +97,8 @@ class AppFixtures extends Fixture
             //images de chaque annonce
             for ($j = 1; $j <= mt_rand(2, 5); $j++) {
                 $image = new Image();
-                $image->setUrl($faker->imageUrl())
+                //$image->setUrl($faker->imageUrl())
+                $image->setUrl("http://placeimg.com/640/480/arch/grayscale")
                     ->setCaption($faker->sentence())
                     ->setAd($ad);
                 $manager->persist($image);

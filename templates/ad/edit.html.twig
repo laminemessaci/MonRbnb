@@ -8,13 +8,24 @@
 {% block body %}
 
     <div class="container">
-        <h1>Modifier l'annonce {{ ad.title }}</h1>
-        {{ form_start(form) }}
+        <div class="wrapper bg-white">
+            <div class="h2 text-center">Agence N°1 du web</div>
+            <div class="h4 text-muted text-center pt-2">Modifier l'annonce {{ ad.title }}</div>
 
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Modifié l'annonce</button>
-        {{ form_end(form) }}
+            {{ form_start(form) }}
 
+            {{ form_widget(form) }}
+
+
+
+
+        </div>
+
+        <div class="container text-center mb-5 mt-0">
+            <button type="submit" class="btn btn-warning">Modifié l'annonce</button>
+
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
 

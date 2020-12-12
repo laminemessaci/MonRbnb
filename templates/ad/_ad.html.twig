@@ -1,8 +1,12 @@
 {% set url = path('ads_show', { 'slug': ad.slug}) %}
 <div class="col-md-4">
-    <div class="card bg-light mb-3">
+    <div class="card  mb-3">
         <div class="card-header text-center">
-            <p>{{ ad.rooms }} chambres, <strong>{{ ad.price }}&euro; /nuit</strong></p>
+            <p>
+                {% if app.user and app.user == ad.author %}
+                    <a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-dark"><i class="fas fa-cogs"></i></a>
+                {% endif %}
+                {{ ad.rooms }} chambres <i class="fas fa-restroom"></i>, <strong>{{ ad.price }}&euro; /nuit</strong></p>
             <p><small>Pas encore noté </small></p>
         </div>
         <a href="{{ url }}">
@@ -21,6 +25,7 @@
             </p>
             <a href="{{ url }}" class="btn btn-secondary">En savoir
                 plus !</a>
+
         </div>
     </div>
 </div>

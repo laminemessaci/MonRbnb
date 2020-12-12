@@ -14,10 +14,14 @@
                 <strong>{{ ad.rooms }} chambres</strong> pour <strong>{{ ad.price }} &euro; </strong> par nuit
             </p>
 
-            <a class="btn btn-primary">Réserver </a>
+            <a class="btn btn-primary"><i class="fas fa-credit-card"></i> Réserver </a>
+            {% if app.user and app.user == ad.author %}
+                <a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-dark"><i class="fas fa-cogs"></i>
+                    Modifier cette annonce </a>
+                <a href="{{ path('ads_delete', {'slug': ad.slug}) }}" class="btn btn-danger" onclick="return confirm(`Ëte vous sur de vouloir supprimer l'annone: {{ ad.title }} ?`)"><i class="fas fa-trash-alt"></i>
+                    Supprimer cette annonce </a>
+            {% endif %}
         </div>
-
-
     </div>
 
     <div class="container">

@@ -6,6 +6,8 @@ use App\Entity\Ad;
 use App\Form\AdType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +31,7 @@ class AdController extends AbstractController
     /**
      * Permet de créer une nouvelle annonce
      * @Route ("ads/new" , name="ads_create")
+     * @IsGranted("ROLE_USER")
      * @return Response
      */
     public function create(Request $request, EntityManagerInterface $manager): Response
@@ -65,6 +68,7 @@ class AdController extends AbstractController
     /**
      * Permet d'éditer une nouvelle annonce
      * @Route ("ads/{slug}/edit" , name="ads_edit")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Cette annonce ne vous appartient pas, vous ne pouvez pas la modifier !" )
      * @return Response
      */
     public function edit(Ad $ad, Request $request, EntityManagerInterface $manager): Response
@@ -104,7 +108,7 @@ class AdController extends AbstractController
      * @Route("/ads/{slug}", name="ads_show")
      * @return Response
      */
-    public function show($slug, Ad $ad): Response
+    public function show(Ad $ad): Response
     {
         //$ad = $repository->findOneBySlug($slug); grace au parameter converter on n'a plus besoin du repository c'es symfony qui s'occupe
         return $this->render('ad/show.html.twig', [
@@ -112,5 +116,21 @@ class AdController extends AbstractController
         ]);
     }
 
+    /**
+     * Permet de supprimer une seule annonce
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     * @Security ("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Vous n'avez pas le droit d'accéder à cette ressource")
+     * @param Ad $ad
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    public function delete(Ad $ad, EntityManagerInterface $manager): Response
+    {
+        //$ad = $repository->findOneBySlug($slug); grace au parameter converter on n'a plus besoin du repository c'es symfony qui s'occupe
+        $manager->remove($ad);
+        $manager->flush();
+        $this->addFlash('success', "L'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimée !");
+        return $this->redirectToRoute('ads_index');
+    }
 
 }

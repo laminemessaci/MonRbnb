@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\HasLifecycleCallbacks()
- *  @UniqueEntity(
+ * @UniqueEntity(
  *     fields={"email"},
  *     message="Une autre utilisateur s'est  dejâ inscrit avec ce mail, merci de se connecter ou de renitialiser votre mot de passe !, "
  * )
@@ -37,7 +37,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     *  @Assert\Length(min=3, max=15, minMessage="Le nom doit faire plus de 3 caractères !", maxMessage="Le nom ne doit pas dépassé 15 caractères !")
+     * @Assert\Length(min=3, max=15, minMessage="Le nom doit faire plus de 3 caractères !", maxMessage="Le nom ne doit pas dépassé 15 caractères !")
      */
     private $lastName;
 
@@ -86,6 +86,11 @@ class User implements UserInterface
     private $ads;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="users")
+     */
+    private $userRoles;
+
+    /**
      * Permet d'initialiser le slug a chaque évènement prés persist
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -93,19 +98,21 @@ class User implements UserInterface
      */
     public function initializeSlug(): void
     {
-        if(empty($this->slug)){
+        if (empty($this->slug)) {
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->firstName.' '.$this->lastName);
+            $this->slug = $slugify->slugify($this->firstName . ' ' . $this->lastName);
         }
     }
 
-    public function getFullName(){
+    public function getFullName()
+    {
         return "{$this->firstName} {$this->lastName}";
     }
 
     public function __construct()
     {
         $this->ads = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,12 +265,21 @@ class User implements UserInterface
 
     public function getRoles()
     {
-     return ['ROLE_USER'];
+        $roles = $this->userRoles->toArray();
+        //dump($roles);
+        $roles = $this->userRoles->map(function ($role){
+            return $role->getTitle();
+        })->toArray();
+        $roles[] = 'ROLE_USER';
+       // dump($roles);
+        //die();
+
+        return $roles;
     }
 
     public function getPassword()
     {
-     return $this->hash;
+        return $this->hash;
     }
 
     public function getSalt()
@@ -273,11 +289,38 @@ class User implements UserInterface
 
     public function getUsername()
     {
-       return $this->email;
+        return $this->email;
     }
 
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRoles->removeElement($userRole)) {
+            $userRole->removeUser($this);
+        }
+
+        return $this;
     }
 }
