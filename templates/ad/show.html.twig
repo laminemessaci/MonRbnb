@@ -12,7 +12,7 @@
             <p class="h2 ad-title">
                 <strong>{{ ad.rooms }} chambres</strong> pour <strong>{{ ad.price }}&euro;</strong> par nuit
             </p>
-            <a href="#" class="btn btn-primary btn-sm">Réserver !</a>
+            <a href="{{ path('booking_create', {'slug': ad.slug}) }}" class="btn btn-primary btn-sm rounded"><i class="fab fa-cc-visa"></i> Réserver !</a>
 
             {% if app.user and app.user == ad.author %}
                 <a href="{{ path('ads_edit', {'slug' : ad.slug}) }}" class="btn btn-secondary btn-sm"><i
@@ -121,11 +121,10 @@
                                 <p class="information mt-3 text-justify"> {{ a.description |raw }} </p>
                                 <div class="d-flex justify-content-center mt-5">
                                     <ul class="list-icons">
-                                        <li class="facebook"><i class="fa fa-facebook"></i></li>
-                                        <li class="youtube"><i class="fa fa-youtube"></i></li>
-                                        <li class="instagram"><i class="fa fa-instagram"></i></li>
-                                        <li class="whatsapp"><i class="fa fa-whatsapp"></i></li>
-                                        <li class="pinterest"><i class="fa fa-pinterest"></i></li>
+                                        <li class="facebook"><i class="fab fa-facebook-square"></i></li>
+                                        <li class="youtube"><i class="fab fa-youtube-square"></i></li>
+                                        <li class="instagram"><i class="fab fa-instagram"></i></li>
+                                        <li class="whatsapp"><i class="fab fa-whatsapp-square"></i></li>
                                     </ul>
                                 </div>
                             </div>
