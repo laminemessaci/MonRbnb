@@ -1,26 +1,11 @@
-@media (min-width: 1200px) {
-    .container {
-        width: 1248px !important;
-        text-align: center;
-    }
-}
-
-body {
-    overflow-x: hidden
-}
 
 .middleTop {
-    margin: 0 auto;
-    padding: 50px 0;
-    max-width: 100%;
-    min-width: 1024px;
-    background-color: #000000db;
+    margin: 0;
+    padding: 20px 0;
     text-align: center;
-
 }
-
 .middle-heading {
-    font-family: "font-bold";
+    font-family: "font-bold", sans-serif;
     font-size: 14px;
     color: #fff;
     margin-left: 38px;
@@ -38,15 +23,15 @@ body {
 }
 
 .middleContent-footer .middleTop div {
-    box-sizing: border-box
+
 }
 
 .middleBottom {
-    background-color: #000;
     text-align: center;
     border-top: 1px solid #e2e2e2;
     border-bottom: 1px solid #e2e2e2;
-    padding: 12px 0
+    padding: 0 0;
+
 }
 
 .middleBottomFooter {
@@ -54,7 +39,7 @@ body {
     font-size: 14px;
     color: #344c55;
     text-align: left;
-    background-color: #000
+
 }
 
 .underLineOnHover {
@@ -62,7 +47,7 @@ body {
 }
 
 .bottomfooter {
-    background-color: #000
+
 }
 
 .copyright {

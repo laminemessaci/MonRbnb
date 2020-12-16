@@ -8,9 +8,9 @@
 
 body {
     background-color: #eee;
-    height: 100vh;
+    height: 100%;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to top, #ffffff 10%, rgba(93, 42, 141, 0.4) 90%) no-repeat
+    background: linear-gradient(to top, #403d3d 10%, rgba(131, 17, 208, 0.4) 90%)
 }
 
 .wrapper {
@@ -18,7 +18,8 @@ body {
     border-radius: 10px;
     margin: 50px auto;
     padding: 30px 40px;
-    box-shadow: 20px 20px 80px rgb(206, 206, 206)
+    box-shadow: 20px 20px 80px rgb(45, 39, 39);
+
 }
 
 .h2 {

@@ -1,0 +1,14 @@
+<a href="{{ path('user_show', {'slug': comment.author.slug}) }}">
+    <img class="avatar-medium rounded-circle" src="{{ comment.author.picture }}" alt="{{ comment.author.fullName }}"
+         width="32px"/> <strong>{{ comment.author.fullName }}: </strong>
+</a>
+<span class="rating">
+  {% for i in 1..5 %}
+      {% if i <= comment.rating %}
+          <i class="fa fa-star text-warning"></i>
+    {% else %}
+          <i class="far fa-star"></i>
+      {% endif %}
+  {% endfor %}
+</span>
+

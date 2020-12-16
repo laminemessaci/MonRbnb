@@ -85,10 +85,16 @@ class Ad
      */
     private $bookings;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="ad", orphanRemoval=true)
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->bookings = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -103,6 +109,63 @@ class Ad
           $slugify = new Slugify();
           $this->slug = $slugify->slugify($this->title);
       }
+    }
+
+
+    /**
+     * Permet d'obtenir un tableau des jours qui ne sont pas disponibles pour cette anonce
+     * @return array Un tableau d'objets DateTime représentant les jours d'occupation
+     */
+    /*
+    public function getNotAvailableDays(){
+        $notAvailableDays = [];
+
+        foreach ($this->getBookings() as  $booking){
+            //Calculer les jours qui se trouvent entre la date d'arrivée et de départ
+            //$result = range(10, 18, 2)
+            //$result = [10, 12, 14, 16, 18]
+            $result = range(
+                $booking->getStartDate()->getTimestamp(),
+                $booking->getEndDate()->getTimestamp(),
+                24*60*60
+            );
+
+            $days = array_map(
+                function ($dayTimestamp){
+                return new \DateTime(date('Y-m-d', $dayTimestamp));
+            },
+                $result );
+
+            $notAvailableDays = array_merge($notAvailableDays, $days);
+        }
+        return $notAvailableDays;
+    }
+    */
+
+    /**
+     * Permet d'obtenir un tableau des jours qui ne sont pas disponibles pour cette annonce
+     *
+     * @return array Un tableau d'objets DateTime représentant les jours d'occupation
+     */
+    public function getNotAvailableDays() {
+        $notAvailableDays = [];
+
+        foreach($this->bookings as $booking) {
+            // Calculer les jours qui se trouvent entre la date d'arrivée et de départ
+            $resultat = range(
+                $booking->getStartDate()->getTimeStamp(),
+                $booking->getEndDate()->getTimeStamp(),
+                24 * 60 * 60
+            );
+
+            $days = array_map(function($dayTimeStamp){
+                return new \DateTime(date('Y-m-d', $dayTimeStamp));
+            }, $resultat);
+
+            $notAvailableDays = array_merge($notAvailableDays, $days);
+        }
+
+        return $notAvailableDays;
     }
 
     public function getId(): ?int
@@ -260,6 +323,36 @@ class Ad
             // set the owning side to null (unless already changed)
             if ($booking->getAd() === $this) {
                 $booking->setAd(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAd() === $this) {
+                $comment->setAd(null);
             }
         }
 

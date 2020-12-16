@@ -28,15 +28,40 @@ class BookingController extends AbstractController
             $user = $this->getUser();
             $booking->setBooker($user)
                 ->setAd($ad);
+            //dd($booking);
 
-            $manager->persist($booking);
-            $manager->flush();
+            //Si les dates ne sont pas disponibles, message d'erreur
+            if (!$booking->isBookableDates()){
+                $this->addFlash('danger',
+                "Les dates que vous avez choisi ne sont pas disponibles, merci de modifier la plage des dates !");
+            }else {
+                //Sinon enregistrement et redirection
+                $manager->persist($booking);
+                $manager->flush();
 
-            return  $this->redirectToRoute('booking_success', ['id'=>$booking->getId()]);
+                return  $this->redirectToRoute('booking_show', ['id'=>$booking->getId(),
+                    'withAlert'=>true
+                ]);
+            }
+
         }
+
         return $this->render('booking/book.html.twig', [
             'ad' => $ad,
             'form'=> $form->createView()
         ]);
+    }
+
+    /**
+     * Permet d'afficher la page d'une réservation
+     * @Route ("/booking/{id}", name="booking_show")
+     * @param Booking $booking
+     */
+    public function show(Booking $booking){
+
+        return $this->render('booking/show.html.twig', [
+          'booking'=>  $booking,
+        ]);
+
     }
 }

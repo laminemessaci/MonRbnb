@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Role;
 use App\Entity\User;
@@ -80,8 +81,8 @@ class AppFixtures extends Fixture
             $ad = new Ad();
             $title = $faker->sentence();
             // $slug = $slugify->slugify($title);
-            //$coverImage = $faker->imageUrl(1000, 350);
-            $coverImage = "http://placeimg.com/640/480/arch/grayscale";
+            //$coverImage = $faker->imageUrl(1000, 450);
+            $coverImage = "http://placeimg.com/1000/480/arch/grayscale";
             $introduction = $faker->paragraph(2);
             $content = "<p>" . join("</p><p>", $faker->paragraphs(5)) . "</p>";
 
@@ -124,7 +125,19 @@ class AppFixtures extends Fixture
                     ->setAmount($amount)
                     ->setComment($comment);
 
+
                 $manager->persist($booking);
+
+                //Gestion des commentaires
+                if (mt_rand(0, 1)) {
+                    $comment = new Comment();
+                    $comment->setContent($faker->paragraph())
+                        ->setRating(mt_rand(1, 5))
+                        ->setAuthor($booker)
+                        ->setAd($ad);
+
+                    $manager->persist($comment);
+                }
 
             }
 
