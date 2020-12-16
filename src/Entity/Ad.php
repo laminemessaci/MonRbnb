@@ -51,13 +51,13 @@ class Ad
 
     /**
      * @ORM\Column(type="text")
-     *  @Assert\Length(min=100, minMessage="Votre description doit faire au moin de 100 caractères !")
+     * @Assert\Length(min=100, minMessage="Votre description doit faire au moin de 100 caractères !")
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *  @Assert\Url(
+     * @Assert\Url(
      *    message = "L' url: '{{ value }}' n'est pas valide !",
      * )
      */
@@ -105,10 +105,25 @@ class Ad
      */
     public function initializeSlug(): void
     {
-      if(empty($this->slug)){
-          $slugify = new Slugify();
-          $this->slug = $slugify->slugify($this->title);
-      }
+        if (empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->title);
+        }
+    }
+
+    /**
+     * Permet de calculer la moyenne de notation
+     *
+     */
+    public function getAvgRatings()
+    {
+        //Calculer la sommes des notations
+        $sum = array_reduce($this->comments->toArray(), function ($total, $comment) {
+            return $total + $comment->getRating();
+        }, 0);
+        //faire la division pour avoir la moyenne
+        if (count($this->comments) > 0) return $moyenne = $sum / count($this->comments);
+        return 0;
     }
 
 
@@ -147,10 +162,11 @@ class Ad
      *
      * @return array Un tableau d'objets DateTime représentant les jours d'occupation
      */
-    public function getNotAvailableDays() {
+    public function getNotAvailableDays()
+    {
         $notAvailableDays = [];
 
-        foreach($this->bookings as $booking) {
+        foreach ($this->bookings as $booking) {
             // Calculer les jours qui se trouvent entre la date d'arrivée et de départ
             $resultat = range(
                 $booking->getStartDate()->getTimeStamp(),
@@ -158,7 +174,7 @@ class Ad
                 24 * 60 * 60
             );
 
-            $days = array_map(function($dayTimeStamp){
+            $days = array_map(function ($dayTimeStamp) {
                 return new \DateTime(date('Y-m-d', $dayTimeStamp));
             }, $resultat);
 

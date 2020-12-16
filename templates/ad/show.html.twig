@@ -110,14 +110,15 @@
                                 <div class="row justify-content-left d-flex">
                                     <div class="col-md-4 d-flex flex-column">
                                         <div class="rating-box">
-                                            <h1 class="pt-4">4.0</h1>
+                                            <h2 class="pt-4 h4">{{ ad.avgRatings }}</h2>
                                             <p class="">out of 5</p>
                                         </div>
-                                        <div><span class="fa fa-star star-active mx-1"></span> <span
-                                                    class="fa fa-star star-active mx-1"></span> <span
-                                                    class="fa fa-star star-active mx-1"></span> <span
-                                                    class="fa fa-star star-active mx-1"></span> <span
-                                                    class="fa fa-star star-inactive mx-1"></span></div>
+                                        {% if ad.comments|length > 0 %}
+                                        <div class="container">
+                                            {% include 'shared/rating.html.twig' with {'rating': ad.avgRatings} %}
+                                            {{ dump(ad.avgRatings) }}
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     <div class="col">
                                         <div class="rating-bar0 justify-content-center">
@@ -180,8 +181,11 @@
                 {% if ad.comments|length > 0 %}
                     {% for comment in ad.comments %}
                         <div class=" bg-light rounded mb-3 py-3 px-3">
-
-                            {% include 'shared/rating.html.twig'with {'rating':comment.rating} %}
+                            <a href="{{ path('user_show', {'slug': comment.author.slug}) }}">
+                                <img class="avatar-medium rounded-circle" src="{{ comment.author.picture }}" alt="{{ comment.author.fullName }}"
+                                     width="36px"/> <strong>{{ comment.author.fullName }}: </strong>
+                            </a>
+                            {% include 'shared/rating.html.twig' with {'rating': comment.rating} %}
                             <blockquote>{{ comment.content }}</blockquote>
                         </div>
 
