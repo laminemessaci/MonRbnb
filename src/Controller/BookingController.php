@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Form\BookingType;
+use App\Form\CommentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,23 +26,23 @@ class BookingController extends AbstractController
         $form = $this->createForm(BookingType::class, $booking);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             $booking->setBooker($user)
                 ->setAd($ad);
             //dd($booking);
 
             //Si les dates ne sont pas disponibles, message d'erreur
-            if (!$booking->isBookableDates()){
+            if (!$booking->isBookableDates()) {
                 $this->addFlash('danger',
-                "Les dates que vous avez choisi ne sont pas disponibles, merci de modifier la plage des dates !");
-            }else {
+                    "Les dates que vous avez choisi ne sont pas disponibles, merci de modifier la plage des dates !");
+            } else {
                 //Sinon enregistrement et redirection
                 $manager->persist($booking);
                 $manager->flush();
 
-                return  $this->redirectToRoute('booking_show', ['id'=>$booking->getId(),
-                    'withAlert'=>true
+                return $this->redirectToRoute('booking_show', ['id' => $booking->getId(),
+                    'withAlert' => true
                 ]);
             }
 
@@ -48,7 +50,7 @@ class BookingController extends AbstractController
 
         return $this->render('booking/book.html.twig', [
             'ad' => $ad,
-            'form'=> $form->createView()
+            'form' => $form->createView()
         ]);
     }
 
@@ -57,10 +59,25 @@ class BookingController extends AbstractController
      * @Route ("/booking/{id}", name="booking_show")
      * @param Booking $booking
      */
-    public function show(Booking $booking){
+    public function show(Booking $booking, Request $request, EntityManagerInterface $manager)
+    {
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        //dump($form->getData());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setAd($booking->getAd())
+                ->setAuthor($this->getUser());
+
+            $manager->persist($comment);
+            $manager->flush();
+            $this->addFlash('success', "Votre commentaire a bien été pris en compte !");
+        }
 
         return $this->render('booking/show.html.twig', [
-          'booking'=>  $booking,
+            'booking' => $booking,
+            'form' => $form->createView()
         ]);
 
     }

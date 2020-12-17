@@ -7,7 +7,15 @@
                     <a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-dark"><i class="fas fa-cogs"></i></a>
                 {% endif %}
                 {{ ad.rooms }} chambres <i class="fas fa-restroom"></i>, <strong>{{ ad.price }}&euro; /nuit</strong></p>
-            <p><small>Pas encore noté </small></p>
+            <p><small>
+                    {% if ad.comments|length > 0 %}
+                        <div class="container">
+                            {% include 'shared/rating.html.twig' with {'rating': ad.avgRatings} %}
+                        </div>
+                        {% else %}
+                      <small>pas encore noté !</small>
+                    {% endif %}
+                </small></p>
         </div>
         <a href="{{ url }}">
             <img class="img-thumbnail rounded" src="{{ ad.coverImage }}" alt="Image de l'appartement"
@@ -20,10 +28,11 @@
                     {{ ad.title }}
                 </h4>
             </a>
-            <p class="card-text">
+            <p class="card-text" >
                 {{ ad.introduction }}
+
             </p>
-            <a href="{{ url }}" class="btn btn-secondary">En savoir
+            <a href="{{ url }}" class="btn btn-info float-right mt-4 btn-sm">En savoir
                 plus !</a>
 
         </div>

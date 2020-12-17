@@ -113,7 +113,7 @@ class Ad
 
     /**
      * Permet de calculer la moyenne de notation
-     *
+     * @return float
      */
     public function getAvgRatings()
     {
@@ -126,6 +126,19 @@ class Ad
         return 0;
     }
 
+    /**
+     * @param User $author
+     * @return comment|null
+     * Permet de récupérer le commentaire d'un auteur par rapport à une annonce
+     */
+    public function getCommentFromAuthor(User $author)
+    {
+        foreach ($this->comments as $comment) {
+            if ($comment->getAuthor() === $author) return $comment;
+
+        }
+        return null;
+    }
 
     /**
      * Permet d'obtenir un tableau des jours qui ne sont pas disponibles pour cette anonce

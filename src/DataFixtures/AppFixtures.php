@@ -79,11 +79,13 @@ class AppFixtures extends Fixture
         //Nous gérons les annonces
         for ($i = 1; $i <= 30; $i++) {
             $ad = new Ad();
-            $title = $faker->sentence();
+            $title = $faker->sentence(1);
             // $slug = $slugify->slugify($title);
             //$coverImage = $faker->imageUrl(1000, 450);
-            $coverImage = "http://placeimg.com/1000/480/arch/grayscale";
-            $introduction = $faker->paragraph(2);
+           // https://picsum.photos/200/300
+            //$coverImage = "http://placeimg.com/1000/480/arch/grayscale";
+            $coverImage = "https://picsum.photos/1000/480/";
+            $introduction = $faker->paragraph(1);
             $content = "<p>" . join("</p><p>", $faker->paragraphs(5)) . "</p>";
 
             $user = $users[mt_rand(0, count($users) - 1)];
@@ -100,7 +102,7 @@ class AppFixtures extends Fixture
             for ($j = 1; $j <= mt_rand(2, 5); $j++) {
                 $image = new Image();
                 //$image->setUrl($faker->imageUrl())
-                $image->setUrl("http://placeimg.com/640/480/arch/grayscale")
+                $image->setUrl("https://picsum.photos/640/480/")
                     ->setCaption($faker->sentence())
                     ->setAd($ad);
                 $manager->persist($image);

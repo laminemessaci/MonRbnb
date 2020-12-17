@@ -36,6 +36,19 @@
         <div class="row">
 
             <div class="col">
+                <div class="alert- alert-light">
+                    <h2 class="h2">Votre hébergement</h2>
+                    <h4 class="alert alert-heading"><a
+                                href="{{ path('ads_show', {'slug': ad.slug}) }}"> {{ ad.title }}</a></h4>
+                    <img class="img-thumbnail" src="{{ ad.coverImage }}">
+                    <div class="container">
+                        {{ ad.content | raw }}
+                        <a class="btn btn-primary" href="{{ path('ads_show', {'slug': ad.slug}) }}">Plus d'infos !</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
                 <div class="alert- alert-light card ">
                     <h2 class="h2">Détails</h2>
                     <dl class="row h5 text-info card-header ">
@@ -50,7 +63,7 @@
                         <dt class="col-md-4 h5 ">Montant total</dt>
                         <dd class="col-md-8">{{ booking.amount }} &euro;</dd>
                         <dt class="col-md-4 h5 ">Commentaire</dt>
-                        <dd class="col-md-8">{{ booking.comment }}</dd>
+                        <dd class="col-md-8">{{ booking.comment | default('Aucun commentaire') }}</dd>
                     </dl>
                     <hr>
                     <h2 class="h2">Votre hôte </h2>
@@ -73,22 +86,80 @@
                     </div>
                 </div>
             </div>
+            <div class="container">
+                <h2 class="h2">Votre avis compte !</h2>
+                {% if date() > date(booking.endDate) %}
 
-            <div class="col">
-                <div class="alert- alert-light">
-                    <h2 class="h2">Votre hébergement</h2>
-                    <h4 class="alert alert-heading"><a
-                                href="{{ path('ads_show', {'slug': ad.slug}) }}"> {{ ad.title }}</a></h4>
-                    <img class="img-thumbnail" src="{{ ad.coverImage }}">
-                    <div class="container">
-                        {{ ad.content | raw }}
-                        <a class="btn btn-primary" href="{{ path('ads_show', {'slug': ad.slug}) }}">Plus d'infos !</a>
+                {% set comment = booking.ad.commentFromAuthor(app.user) %}
+
+                {% if comment is not null %}
+                <blockquote>
+                    {{ comment.content }}
+
+                </blockquote>
+                <strong>Note : </strong>{% include 'shared/rating.html.twig' with {'rating': comment.rating} %}
+
+                {% else %}
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">Laisser un
+                    commentaire ?
+                </button>
+                <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="text-right cross"><i class="fa fa-times mr-2"></i></div>
+                            <div class="card-body text-center"><img class="img-thumbnail" src="{{ ad.coverImage }}"
+                                                                    height="100" width="100">
+                                <div class="comment-box text-center">
+                                    <h4>Add a comment</h4>
+                                    {{ form_start(form) }}
+                                    <div class="rating">
+
+                                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    </div>
+                                    {{ form_row(form.rating) }}
+                                    {{ form_row(form.content) }}
+
+                                </div>
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-success send px-5">Send message <i
+                                                class="fa fa-long-arrow-right ml-1"></i></button>
+                                    <button type="button" id="close" class="btn btn-danger ">Annuler</button>
+                                </div>
+                                {{ form_end(form) }}
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% else %}
+                <p>Vous ne pourez pas noter cette annonce tant que votre voyage ne sera pas complet !</p>
+
+            {% endif %}
 
         </div>
+
+    </div>
     </div>
 
 
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            // Open modal on page load
+            // $("#form").modal('show');
+
+            // Close modal on button click
+            $("#close").click(function () {
+                $("#form").modal('hide');
+            });
+        });
+    </script>
 {% endblock %}

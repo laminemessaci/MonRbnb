@@ -12,7 +12,7 @@
             <p class="h2 ad-title">
                 <strong>{{ ad.rooms }} chambres</strong> pour <strong>{{ ad.price }}&euro;</strong> par nuit
             </p>
-            <a href="{{ path('booking_create', {'slug': ad.slug}) }}" class="btn btn-primary btn-sm rounded"><i
+            <a href="{{ path('booking_create', {'slug': ad.slug}) }}" class="btn btn-primary btn-lg rounded"><i
                         class="fab fa-cc-visa"></i> Réserver !</a>
 
             {% if app.user and app.user == ad.author %}
@@ -110,13 +110,13 @@
                                 <div class="row justify-content-left d-flex">
                                     <div class="col-md-4 d-flex flex-column">
                                         <div class="rating-box">
-                                            <h2 class="pt-4 h4">{{ ad.avgRatings }}</h2>
-                                            <p class="">out of 5</p>
+                                            <h2 class="pt-4 h4">{{ ad.avgRatings| number_format(2) }}/5</h2>
+                                            <small>(Nombre d'avis: {{ ad.comments| length}})</small>
                                         </div>
                                         {% if ad.comments|length > 0 %}
                                         <div class="container">
                                             {% include 'shared/rating.html.twig' with {'rating': ad.avgRatings} %}
-                                            {{ dump(ad.avgRatings) }}
+
                                         </div>
                                         {% endif %}
                                     </div>
