@@ -6,7 +6,7 @@
                 {% if app.user and app.user == ad.author %}
                     <a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-dark"><i class="fas fa-cogs"></i></a>
                 {% endif %}
-                {{ ad.rooms }} chambres <i class="fas fa-restroom"></i>, <strong>{{ ad.price }}&euro; /nuit</strong></p>
+               <em>{{ ad.rooms }}</em>  chambres <i class="fas fa-restroom"></i>, <strong>{{ ad.price | number_format(2, ',', ' ')}}&euro; /nuit</strong></p>
             <p><small>
                     {% if ad.comments|length > 0 %}
                         <div class="container">

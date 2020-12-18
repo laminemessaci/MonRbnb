@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Connexion à l'administration</title>
+
+    <link rel="stylesheet" href="/CSS/app.css">
+    <link rel="stylesheet" href="/CSS/footer.css">
+    <link rel="stylesheet" href="/CSS/login.css">
+    <link rel="stylesheet" href="/CSS/Author_card.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .card {
+            margin-top: 10%;
+        }
+    </style>
+</head>
+<body>
+
+{#
+<div class="col-md-4">
+    <div class="card bg-light">
+        <div class="card-header">
+            <h4 class="card-title">
+                <i class="fas fa-lock"></i>
+                Connexion à l'administration
+            </h4>
+        </div>
+        <div class="card-body">
+
+            {% if hasError %}
+                <div class="alert alert-warning">
+                    <p>Les informations fournies ne sont pas correctes.</p>
+                </div>
+            {% endif %}
+
+            <form method="post">
+                <div class="form-group"><label for="_username">Email</label><input type="text" class="form-control"
+                                                                                   placeholder="Adresse email"
+                                                                                   name="_username" value="username">
+                </div>
+                <div class="form-group"><label for="_password">Mot de passe</label><input type="password"
+                                                                                          class="form-control"
+                                                                                          placeholder="Mot de passe"
+                                                                                          name="_password"></div>
+                <div class="form-grouo">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-lock-open"></i>
+                        Connexion
+                    </button>
+                    <a href="{{ path('home') }}" class="btn btn-link">
+                        <i class="fas fa-arrow-circle-left"></i>
+                        Retour au site
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+#}
+<div class="container">
+
+
+    <div class="wrapper bg-white">
+        <div class="h2 text-center">Administration</div>
+        <div class="h4 text-muted text-center pt-2">Enter vos identifiants</div>
+
+        {% if hasError %}
+            <div class="alert alert-warning">
+                <p>Les informations fournies ne sont pas correctes.</p>
+            </div>
+        {% endif %}
+        <form class="pt-3" method="post">
+            <div class="form-group py-2">
+                <div class="input-field"><span class="far fa-user p-2"></span> <input type="Email"
+                                                                                      placeholder="Username or Email Address"
+                                                                                      name="_username"
+                                                                                      required class=""></div>
+            </div>
+            <div class="form-group py-1 pb-2">
+                <div class="input-field"><span class="fas fa-lock p-2"></span> <input type="password"
+                                                                                      placeholder="Enter your Password"
+                                                                                      name="_password"
+                                                                                      required class="">
+                    <button class="btn bg-white text-muted"><span class="far fa-eye-slash"></span></button>
+                </div>
+            </div>
+            <div class="d-flex align-items-start">
+                <div class="remember"><label class="option text-muted"> Remember me <input type="radio" name="radio">
+                        <span class="checkmark"></span> </label></div>
+                <div class="ml-auto"><a href="#" id="forgot">Forgot Password?</a></div>
+            </div>
+            <button type="submit" class="btn btn-block text-center my-3">Connexion</button>
+            <div class="text-center pt-3 text-muted"><a href="{{ path('home') }}" class="btn btn-link">
+                    <i class="fas fa-arrow-circle-left"></i>Retour vers le site</a></div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

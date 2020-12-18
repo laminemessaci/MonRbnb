@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des annonces !{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid bg-white py-3">
+        <div class="container text-center">
+            <h1 class="h1 my-5">Gestion des annonces </h1>
+        </div>
+
+
+        <table class="table caption-top">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Auteur</th>
+                <th  class="text-center" scope="col">Réservations</th>
+                <th  class="text-center" scope="col">Note</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ad in ads %}
+                <tr>
+                    <td>{{ ad.id }}</td>
+                    <td>{{ ad.title }}</td>
+                    <td><img class="avatar avatar-micro mr-2" src="{{ ad.author.picture }}"
+                             alt="{{ ad.author.fullName }}"> {{ ad.author.fullName }}</td>
+                    <td class="text-center">
+                        <span class="badge badge-primary rounder ">{{ ad.bookings | length }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge badge-primary rounder ">{{ ad.avgRatings| number_format(1, ',', ' ')}}</span>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i> </a>
+                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> </a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}

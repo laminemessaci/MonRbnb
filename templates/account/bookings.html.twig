@@ -37,20 +37,32 @@
                                        class="btn btn-info sm">Voir l'annonce</a>
 
                                     <div class="d-flex align-items-center justify-content-between mt-1">
-                                        <h6 class="font-weight-bold my-2">{{ booking.amount| number_format(2, ',', ' ') }} €</h6>
-                                        <ul class="list-inline small">
-                                            <li class="list-inline-item m-0"><i class="fa fa-star text-warning"></i>
-                                            </li>
-                                            <li class="list-inline-item m-0"><i class="fa fa-star text-warning"></i>
-                                            </li>
-                                            <li class="list-inline-item m-0"><i class="fa fa-star text-warning"></i>
-                                            </li>
-                                            <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
-                                        </ul>
+                                        <h6 class="font-weight-bold my-2">{{ booking.amount| number_format(2, ',', ' ') }}
+                                            €</h6>
+
                                     </div>
                                 </div>
-                                <img src="{{ ad.coverImage }}" width="200"
-                                     class="ml-lg-5 order-1 order-lg-2 img-thumbnail" alt="{{ ad.title }}">
+                                <div class="col-md-6">
+                                    <img src="{{ ad.coverImage }}" width="200"
+                                         class="ml-lg-5 order-1 order-lg-2 img-thumbnail" alt="{{ ad.title }}">
+                                    <div class="container ml-5">
+                                        {% set comment = ad.commentFromAuthor(app.user) %}
+                                        {% if comment is not null %}
+                                            <strong> Note
+                                                : </strong>{% include'shared/rating.html.twig' with {'rating': comment.rating} %}
+
+                                        {% else %}
+
+                                            <blockquote>Vous n'avez pas encore donner de note.</blockquote>
+                                            <a href="{{ path('booking_show', {'id': booking.id}) }}#comment">
+                                                <button class="btn btn-primary btn-sm">Je donne mon avis</button>
+                                            </a>
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
                             </div> <!-- End -->
                         </li> <!-- End -->
 
@@ -60,6 +72,5 @@
             {% endfor %}
         </div>
     </div>
-
 
 {% endblock %}
