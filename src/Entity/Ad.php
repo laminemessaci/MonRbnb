@@ -112,17 +112,18 @@ class Ad
     }
 
     /**
-     * Permet de calculer la moyenne de notation
+     * Permet d'obtenir la moyenne globale des notes pour cette annonce
+     *
      * @return float
      */
-    public function getAvgRatings()
-    {
-        //Calculer la sommes des notations
-        $sum = array_reduce($this->comments->toArray(), function ($total, $comment) {
+    public function getAvgRatings() {
+        // Calculer la sommes des notations
+        $sum = array_reduce($this->comments->toArray(), function($total, $comment) {
             return $total + $comment->getRating();
         }, 0);
-        //faire la division pour avoir la moyenne
-        if (count($this->comments) > 0) return $moyenne = $sum / count($this->comments);
+        // Faire la division pour avoir la moyenne
+        if(count($this->comments) > 0) return $sum / count($this->comments);
+
         return 0;
     }
 

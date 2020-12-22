@@ -9,7 +9,6 @@
             <h1 class="h1 my-5">Gestion des annonces </h1>
         </div>
 
-
         <table class="table caption-top">
             <thead>
             <tr>
@@ -35,8 +34,9 @@
                         <span class="badge badge-primary rounder ">{{ ad.avgRatings| number_format(1, ',', ' ')}}</span>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i> </a>
-                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> </a>
+                        <a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="btn btn-danger"><i class="fas fa-eye"></i></a>
+                        <a href="{{ path('admin_ads_edit', {'id': ad.id}) }}" class="btn btn-primary"><i class="fas fa-edit"></i> </a>
+                        <a href="{{ path('admin_ads_delete', {'id': ad.id}) }}" class="btn btn-danger"><i class="fas fa-trash"></i> </a>
                     </td>
                 </tr>
             {% endfor %}

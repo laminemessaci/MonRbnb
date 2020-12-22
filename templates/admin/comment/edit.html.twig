@@ -1,0 +1,31 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Commentaires {% endblock %}
+
+{% block body %}
+    <div class="wrapper bg-white">
+        {{ form_start(form) }}
+        <div class="h2 text-center">Administration</div>
+        <div class="h4 text-muted text-center pt-2">Commentaires de {{ comment.author.fullName }}</div>
+        <form class="pt-3">
+            <div class="">
+                <p><strong>Annonce liée :</strong> <span>{{ comment.ad.title }}</span></p>
+                <p><strong>Auteur du commentaire :</strong> <img class="rounded-circle"
+                                                                 src="{{ comment.author.picture }}" width="30"><span
+                            class="ml-2">{{ comment.author.fullName }}</span></p>
+                <p><strong>Note : </strong>{{ form_row(form.rating) }}</p>
+            </div>
+            <div class="form-group py-1 pb-2">
+
+                {{ form_row(form.content, {'label': false}) }}
+            </div>
+            <div class="d-flex align-items-start">
+
+                <button class="btn btn-block text-center my-3">Enregistrer les modifications</button>
+            </div>
+
+
+        </form>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends'admin/base.html.twig' %}
+
+{% block title %} Modification de l'annonce N°: {{ ad.title }} {% endblock %}
+{% form_theme form _self %}
+{% block body %}
+
+    <div class="container-fluid">
+        {{ form_start(form) }}
+        <div class="h2 text-center m-3">Administration</div>
+        <div class="container text-center mb-5 mt-0">
+            <button type="submit" class="btn btn-warning"><i class="fas fa-check-square"></i>Enregistrer les
+                modifications
+            </button>
+        </div>
+        <div class="row">
+
+            <div class="col">
+                <div class="wrapper bg-white">
+                    <div class="card-head">
+                        <div class="h4 text-muted text-center card-title pt-2">Modifier l'annonce {{ ad.title }}</div>
+                    </div>
+
+                    {{ form_widget(form) }}
+                </div>
+
+
+            </div>
+
+            <div class="col">
+                <div class="col">
+                    <div class="wrapper bg-white">
+
+                        <div class="card-head">
+                            <div class="h4 text-muted text-center card-title pt-2">Les réservations
+                                de: {{ ad.title }}</div>
+                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Voyageur</th>
+                                <th scope="col">Date de réservation</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for booking in ad.bookings %}
+                                <tr>
+                                    <td>{{ booking.id }}</td>
+                                    <td>{{ booking.booker.fullName }}</td>
+                                    <td>{{ booking.createdAt | date('d/m/Y H:i') }}</td>
+                                    <th scope="col"></th>
+                                    <td><a href="#" class="btn btn-primary float-right"><i class="fas fa-pen"></i> </a>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <hr>
+
+                        <div class="card-head mt-5">
+                            <div class="h4 text-muted text-center card-title pt-2">Les commentaires
+                                de: {{ ad.title }}</div>
+                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Voyageur</th>
+                                <th scope="col">Note</th>
+                                <th scope="col">commentaire</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for comment in ad.comments %}
+                                <tr>
+                                    <td>{{ comment.id }}</td>
+                                    <td>{{ comment.author.fullName }}</td>
+                                    <td>{{ comment.rating }}</td>
+                                    <td>{{ comment.content }}</td>
+                                    <td><a href="#" class="btn btn-primary"><i class="fas fa-pen"></i> </a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block _ad_images_widget %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _ad_images_entry_row %}
+    {# {{ dump() }} #}
+    <div id="block_{{ id }}">
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+{% block _ad_images_entry_widget %}
+    {# {{ dump() }} #}
+    <div class="row align-items-center mb-2 ">
+        {% if value %}
+            <div class="col">
+                <img src="{{ value.url }}" class="img-fluid img-thumbnail" alt="">
+            </div>
+        {% endif %}
+        <div class="col-3">
+            Url:
+            {{ form_widget(form.url) }}
+        </div>
+        <div class="col-4">
+            Caption:
+            {{ form_widget(form.caption) }}
+        </div>
+        <div class="col-1">
+            <button type="button" class="btn btn-danger" data-action="delete" data-target="#block_{{ id }}"><i
+                        class="fas fa-trash"></i></button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $('[data-action="delete"]').on('click', function () {
+                const target = this.dataset.target;
+                //console.log(target);
+                $(target).remove();
+
+            })
+        })
+    </script>
+
+{% endblock %}

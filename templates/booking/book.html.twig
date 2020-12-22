@@ -15,7 +15,7 @@
 
 {% block body %}
 
-    <div id="booking" class="section">
+    <div id="booking" class="section my-5">
         <div class="section-center">
             <div class="container">
                 <div class="row">
@@ -131,7 +131,7 @@
                 startDate: new Date()
             });
 
-            $('#booking_startDate, #booking_endDate').on('change', calculateAmount);
+            $('#booking_startDate, #booking_endDate').on(`change`, calculateAmount);
         });
 
 
