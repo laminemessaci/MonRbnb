@@ -1,0 +1,37 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des réservation {% endblock %}
+
+{% block body %}
+
+    <div class="container bg-light m-auto rounded">
+
+
+        <div class="container p-4">
+            <div class="h2 text-center m-5">Modifier la reservation N°: {{ booking.id }}</div>
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(form.startDate) }}
+                    {{ form_row(form.booker) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(form.endDate) }}
+                    {{ form_row(form.ad) }}
+                </div>
+
+            </div>
+            <div class="container-responsive">
+                {{ form_row(form.comment) }}
+                <div class="container text-center mb-5 mt-0">
+                    <button type="submit" class="btn btn-warning"><i class="fas fa-check-square"></i>Enregistrer les
+                        modifications
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}

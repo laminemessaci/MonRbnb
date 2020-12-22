@@ -64,6 +64,7 @@ class Booking
     /**
      * Callback appelé à chaque réservation, il permet d'initialiser les certains données
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function prePersist()
     {
