@@ -21,7 +21,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for booking in bookings %}
+                {% for booking in pagination.data %}
                     <tr>
                         <td class="text-center">{{ booking.id }}</td>
                         <td>
@@ -39,7 +39,8 @@
                         <td>{{ booking.duration }}</td>
                         <td>{{ booking.amount| number_format(2, ',', ' ') }}€</td>
                         <td>
-                            <a href="{{ path('booking_show', {'id': booking.id}) }}" class="btn btn-danger"><i class="fas fa-eye"></i></a>
+                            <a href="{{ path('booking_show', {'id': booking.id}) }}" class="btn btn-danger"><i
+                                        class="fas fa-eye"></i></a>
                             <a href="{{ path('admin_booking_edit', {'id': booking.id}) }}" class="btn btn-primary"><i
                                         class="fas fa-edit"></i> </a>
                             <a href="{{ path('admin_booking_delete', {'id': booking.id}) }}" class="btn btn-danger"><i
@@ -50,6 +51,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+            {{pagination.display() }}
+
         </div>
     </div>
 {% endblock %}

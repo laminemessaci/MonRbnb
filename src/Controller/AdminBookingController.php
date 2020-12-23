@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Booking;
 use App\Form\AdminBookingType;
 use App\Repository\BookingRepository;
+use App\Service\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,12 +15,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminBookingController extends AbstractController
 {
     /**
-     * @Route("/admin/bookings", name="admin_booking_index")
+     * @Route("/admin/bookings/{page<\d+>?1}", name="admin_booking_index")
      */
-    public function index(BookingRepository $repository): Response
+    public function index(BookingRepository $repository, $page, Paginator $paginator): Response
     {
+       $paginator->setEntityClass(Booking::class)
+           ->setPage($page);
+       //$bookings = $paginator->getData();
+       //dd($bookings);
+
         return $this->render('admin/booking/index.html.twig', [
-            'bookings' => $repository->findAll(),
+           'pagination'=>$paginator
+            /*
+            'pagination' => $paginator->getData(),
+            'pages'=> $paginator->getPages(),
+            'page'=> $page
+            */
         ]);
     }
 
@@ -57,7 +68,8 @@ class AdminBookingController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function delete(Booking $booking, EntityManagerInterface $manager): Response
+    public function delete(
+        Booking $booking, EntityManagerInterface $manager): Response
     {
 
         $manager->remove($booking);

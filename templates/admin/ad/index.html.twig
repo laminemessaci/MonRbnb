@@ -3,11 +3,8 @@
 {% block title %}Administration des annonces !{% endblock %}
 
 {% block body %}
-
+    <div class="h2 text-center m-3">Administration des annonces </div>
     <div class="container-responsive bg-white">
-        <div class="container text-center">
-            <h1 class="h1 my-5">Gestion des annonces </h1>
-        </div>
 
         <table class="table caption-top  table table-striped table-dark text-white table-hover">
             <thead>
@@ -15,13 +12,13 @@
                 <th scope="col">Id</th>
                 <th scope="col">Titre</th>
                 <th scope="col">Auteur</th>
-                <th  class="text-center" scope="col">Réservations</th>
-                <th  class="text-center" scope="col">Note</th>
+                <th class="text-center" scope="col">Réservations</th>
+                <th class="text-center" scope="col">Note</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
-            {% for ad in ads %}
+            {% for ad in pagination.data %}
                 <tr>
                     <td>{{ ad.id }}</td>
                     <td>{{ ad.title }}</td>
@@ -31,18 +28,23 @@
                         <span class="badge badge-primary rounder ">{{ ad.bookings | length }}</span>
                     </td>
                     <td class="text-center">
-                        <span class="badge badge-primary rounder ">{{ ad.avgRatings| number_format(1, ',', ' ')}}</span>
+                        <span class="badge badge-primary rounder ">{{ ad.avgRatings| number_format(1, ',', ' ') }}</span>
                     </td>
                     <td>
-                        <a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="btn btn-danger"><i class="fas fa-eye"></i></a>
-                        <a href="{{ path('admin_ads_edit', {'id': ad.id}) }}" class="btn btn-primary"><i class="fas fa-edit"></i> </a>
-                        <a href="{{ path('admin_ads_delete', {'id': ad.id}) }}" class="btn btn-danger"><i class="fas fa-trash"></i> </a>
+                        <a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="btn btn-danger"><i
+                                    class="fas fa-eye"></i></a>
+                        <a href="{{ path('admin_ads_edit', {'id': ad.id}) }}" class="btn btn-primary"><i
+                                    class="fas fa-edit"></i> </a>
+                        <a href="{{ path('admin_ads_delete', {'id': ad.id}) }}" class="btn btn-danger"><i
+                                    class="fas fa-trash"></i> </a>
                     </td>
                 </tr>
             {% endfor %}
 
             </tbody>
         </table>
+
+        {{pagination.display() }}
 
     </div>
 {% endblock %}
