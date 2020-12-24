@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Bienvenu sur le meilleur réseau de location vacances
+    Bienvenu sur le meilleur réseau de location vacances
 {% endblock %}
 
 {% block body %}
     <div class=" container mt-5">
+
         <div class="jumbotron">
             <h1 class="display-3">Bienvenu sur SymBNB</h1>
             <p class="lead">Nous mettons en relations les voyageurs et les propriétaire qui veulent profiter
@@ -22,113 +23,34 @@ Bienvenu sur le meilleur réseau de location vacances
 
         <h2 class="h1 mt-3 mb-4">Nos meilleurs Appartements </h2>
         <div class="row">
-
-            <div class="col-md-4">
-                <div class="card bg-light mb-3">
-                    <div class="card-header text-center">
-                        <p>3 chambres, <strong>49&euro; /nuit</strong></p>
-                        <p><small>Pas encore noté </small></p>
-                    </div>
-                    <img src="https://via.placeholder.com/1000x400" alt="Image de l'appartement"
-                         style="height: 200px; width: 100%; display: block">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            Appartement en centre ville
-                        </h4>
-                        <p class="card-text">
-                            En vacances avec les enfants? Bray-Dunes vous propose également un large éventail
-                            d’activités familiales dans les environs!
-
-                        </p>
-                        <a href="" class="btn btn-secondary float-right mt-3">En savoir plus !</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card bg-light mb-3">
-                    <div class="card-header text-center">
-                        <p>3 chambres, <strong>49&euro; /nuit</strong></p>
-                        <p><small>Pas encore noté </small></p>
-                    </div>
-                    <img src="https://via.placeholder.com/1000x400" alt="Image de l'appartement"
-                         style="height: 200px; width: 100%; display: block">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            Appartement en centre ville
-                        </h4>
-                        <p class="card-text">
-                            En vacances avec les enfants? Bray-Dunes vous propose également un large éventail
-                            d’activités familiales dans les environs!
-
-                        </p>
-                        <a href="" class="btn btn-secondary float-right mt-3">En savoir plus !</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card bg-light mb-3">
-                    <div class="card-header text-center">
-                        <p>3 chambres, <strong>49&euro; /nuit</strong></p>
-                        <p><small>Pas encore noté </small></p>
-                    </div>
-                    <img src="https://via.placeholder.com/1000x400" alt="Image de l'appartement"
-                         style="height: 200px; width: 100%; display: block">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            Appartement en centre ville
-                        </h4>
-                        <p class="card-text">
-                            En vacances avec les enfants? Bray-Dunes vous propose également un large éventail
-                            d’activités familiales dans les environs!
-
-                        </p>
-                        <a href="" class="btn btn-secondary float-right mt-3">En savoir plus !</a>
-                    </div>
-                </div>
-            </div>
+            {% for data in ads %}
+                {% include 'ad/_ad.html.twig' with {'ad': data.annonce} %}
+            {% endfor %}
         </div>
 
         <h2 class="h1 mt-3 mb-4">Nos propriétaires stars</h2>
 
         <div class="row">
-
-            <div class="col-auto">
-                <div class="card border-secondary mb-3">
-                    <div class="card-body">
-                        <h4 class="card-title">Lamine Messaci</h4>
-                        <hr>
-                        <div class="card-text">
-                            <img src="http://placehold.it/64x64" alt="Avatar de lamine" class="float-left mr-3">
-                            <p>échange par mail et téléphone<br>
-                                Taux de réponse: 100%<br>
-                                Délai de réponse: Quelques heures</p>
-                            <a href="#" class="btn btn-info float-right">Plus d'infos !</a>
+            {% for data in users %}
+                <div class="col-md-4">
+                    <div class="card border-secondary mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ data.user.fullName }}</h4>
+                            <hr>
+                            <div class="card-text">
+                                <img src="{{ data.user.picture }}" alt="Avatar de lamine" class="float-left mr-3">
+                                <p>échange par mail et téléphone<br>
+                                    Taux de réponse: 100%<br>
+                                    Délai de réponse: Quelques heures</p>
+                                <a href="{{ path('user_show', {'slug': data.user.slug}) }}" class="btn btn-info float-right">Plus d'infos !</a>
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
+            {% endfor %}
 
-            </div>
-
-            <div class="col-auto">
-                <div class="card border-secondary mb-3">
-                    <div class="card-body">
-                        <h4 class="card-title">Lamine Messaci</h4>
-                        <hr>
-                        <div class="card-text">
-                            <img src="http://placehold.it/64x64" alt="Avatar de lamine" class="float-left mr-3">
-                            <p>échange par mail et téléphone<br>
-                                Taux de réponse: 100%<br>
-                                Délai de réponse: Quelques heures</p>
-                            <a href="#" class="btn btn-info float-right">Plus d'infos !</a>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
 
         </div>
     </div>

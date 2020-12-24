@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ad;
 use App\Form\AdType;
 use App\Repository\AdRepository;
+use App\Service\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -16,15 +17,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdController extends AbstractController
 {
     /**
-     * @Route("/ads", name="ads_index")
+     * @Route("/ads/{page<\d+>?1}", name="ads_index")
      */
-    public function index(AdRepository $repository): Response
+    public function index(AdRepository $repository, $page, Paginator $paginator): Response
     {
+        $paginator->setEntityClass(Ad::class)
+            ->setLimit(9)
+            ->setPage($page);
         //$session->set('panier', 'mon panier ');
         //dump($session->get('panier'));
         $ads = $repository->findAll();
         return $this->render('ad/index.html.twig', [
-            'ads' => $ads
+            'pagination' => $paginator
         ]);
     }
 
