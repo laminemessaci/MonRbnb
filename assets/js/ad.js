@@ -1,5 +1,4 @@
-
-    $('#add-image').click(function(){
+$('#add-image').click(function () {
     // récupère le numéro des futurs champs qui vont être créés
     const index = +$('#widgets-counter').val();
 
@@ -15,19 +14,19 @@
     handleDeleteButtons();
 });
 
-    function handleDeleteButtons() {
-    $('button[data-action="delete"]').click(function(){
+function handleDeleteButtons() {
+    $('button[data-action="delete"]').click(function () {
         const target = this.dataset.target;
         $(target).remove();
     });
 }
 
-    function updateCounter() {
+function updateCounter() {
     const count = +$('#ad_images div.form-group').length;
 
     $('#widgets-counter').val(count);
 }
 
-    updateCounter();
+updateCounter();
 
-    handleDeleteButtons();
+handleDeleteButtons();

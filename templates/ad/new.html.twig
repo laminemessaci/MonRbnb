@@ -22,17 +22,52 @@
 
 
 {% block _ad_images_widget %}
-    <p>Ici vous pouvez ajouter les images de vos annonces </p>
+    <p class="h5 text-white">Ici vous pouvez ajouter les images de vos annonces </p>
     {{ form_widget(form) }}
 
     <input type="hidden" id="widgets-counter" value="0">
 
     <div class="form-group">
-        <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
+        <button type="button" id="add-image" class="btn btn-primary ">Ajouter une image</button>
     </div>
 {% endblock %}
 
 
 {% block javascripts %}
-    <script src="/JS/ad.js"></script>
+    <script>
+
+        $('#add-image').click(function () {
+            // récupère le numéro des futurs champs qui vont être créés
+            const index = +$('#widgets-counter').val();
+
+            // récupère le prototype des entrées
+            const tmpl = $('#ad_images').data('prototype').replace(/__name__/g, index);
+
+            // injecte ce code au sein de la div
+            $('#ad_images').append(tmpl);
+
+            $('#widgets-counter').val(index + 1);
+
+            //gère le bouton supprimer
+            handleDeleteButtons();
+        });
+
+        function handleDeleteButtons() {
+            $('button[data-action="delete"]').click(function () {
+                const target = this.dataset.target;
+                $(target).remove();
+            });
+        }
+
+        function updateCounter() {
+            const count = +$('#ad_images div.form-group').length;
+
+            $('#widgets-counter').val(count);
+        }
+
+        updateCounter();
+
+        handleDeleteButtons();
+
+    </script>
 {% endblock %}

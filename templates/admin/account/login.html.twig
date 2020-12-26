@@ -6,10 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Connexion à l'administration</title>
 
-    <link rel="stylesheet" href="/CSS/app.css">
-    <link rel="stylesheet" href="/CSS/footer.css">
-    <link rel="stylesheet" href="/CSS/login.css">
-    <link rel="stylesheet" href="/CSS/Author_card.css">
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -104,7 +102,7 @@
             </div>
             <button type="submit" class="btn btn-block text-center my-3">Connexion</button>
             <div class="text-center pt-3 text-muted"><a href="{{ path('home') }}" class="btn btn-link">
-                    <i class="fas fa-arrow-circle-left"></i></i>Retour vers le site</a></div>
+                    <i class="fas fa-arrow-circle-left"></i>Retour vers le site</a></div>
         </form>
     </div>
 
